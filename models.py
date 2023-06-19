@@ -22,4 +22,4 @@ class Zgloszenie(BaseModel):
     nr_telefonu = CharField(null=True)
     praca = ForeignKeyField(Praca, backref='zgloszenia')
 
-Config.DATABASE.create_tables([Praca, Zgloszenie])
+
