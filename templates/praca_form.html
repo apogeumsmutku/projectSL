@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Praca</title>
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/style_prace_form.css') }}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#submitButton').click(function() {
+                var nazwa = $('#nazwa').val();
+                var opis = $('#opis').val();
+                var deadline = $('#deadline').val();
+
+                var data = {
+                    nazwa: nazwa,
+                    opis: opis,
+                    deadline: deadline
+                };
+
+                $.ajax({
+                    url: '/prace',
+                    type: 'POST',
+                    data: data,
+                    success: function(response) {
+                        location.href = "/prace"; // Przekierowanie na stronę główną po dodaniu pracy
+                    }
+                });
+            });
+        });
+
+        $(document).ready(function() {
+            $('#editButton').click(function() {
+                var id = $('#id').val();
+                var nazwa = $('#nazwa').val();
+                var opis = $('#opis').val();
+                var deadline = $('#deadline').val();
+
+                var data = {
+                    nazwa: nazwa,
+                    opis: opis,
+                    deadline: deadline
+                };
+
+                $.ajax({
+                    url: '/prace/' + id,
+                    type: 'PUT',
+                    data: data,
+                    success: function(response) {
+                        location.href = "/prace"; // Przekierowanie na stronę główną po dodaniu pracy
+                    }
+                });
+            });
+        });
+
+    </script>
+</head>
+<body>
+    {% if praca %}
+        <h1>Edytuj pracę</h1>
+    {% else %}
+        <h1>Dodaj pracę</h1>
+    {% endif %}
+    <form>
+        {% if praca %}
+            <input type="hidden" id="id" name="id" value="{{ praca.id }}">
+
+            <label for="nazwa">Nazwa:</label>
+            <input type="text" id="nazwa" name="nazwa" value="{{ praca.nazwa }}" required><br><br>
+
+            <label for="opis">Opis:</label>
+            <textarea id="opis" name="opis" required>
+{{ praca.opis }}
+            </textarea><br><br>
+
+            <label for="deadline">Deadline:</label>
+            <input type="date" id="deadline" name="deadline" value="{{ praca.deadline }}" min="{{ 'now' | date('Y-m-d') }}" required><br><br>
+
+        {% else %}
+
+            <label for="nazwa">Nazwa:</label>
+            <input type="text" id="nazwa" name="nazwa" required><br><br>
+
+
+            <label for="opis">Opis:</label>
+            <textarea id="opis" name="opis" required></textarea><br><br>
+
+            <label for="deadline">Deadline:</label>
+            <input type="date" id="deadline" name="deadline" min="{{ 'now' | date('Y-m-d') }}" required><br><br>
+
+        {% endif %}
+
+        {% if praca %}
+            <button type="button" id="editButton">Edytuj</button>
+        {% else %}
+            <button type="button" id="submitButton">Dodaj</button>
+        {% endif %}     
+
+    </form>
+    <br>
+    <a href="/">Powrót</a>
+</body>
+</html>

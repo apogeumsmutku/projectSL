@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lista prac</title>
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/style_prace.css') }}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.deleteButton').click(function() {
+                var id = $(this).data('id');
+
+                $.ajax({
+                    url: '/prace/' + id,
+                    type: 'DELETE',
+                    success: function(response) {
+                        location.reload(); // Przeładowanie strony
+                    },
+                });
+            });
+
+            $('.editButton').click(function() {
+                var id = $(this).data('id');
+                $.ajax({
+                    url: '/prace/' + id + '/edit',
+                    type: 'GET',
+                    success: function(response) {
+                        location.href = '/prace/' + id + '/edit';
+                    },
+                });
+            });
+
+            $('.addButton').click(function() {
+                $.ajax({
+                    url: '/prace/new-praca',
+                    type: 'GET',
+                    success: function(response) {
+                        location.href = "/prace/new-praca";
+                    },
+                });
+            });
+
+            $('#allButton').click(function() {
+                $('.pracaRow').show();
+                $(this).prop('disabled', true);
+                $('#takenTrueButton').prop('disabled', false);
+                $('#takenFalseButton').prop('disabled', false);
+            });
+
+            $('#takenTrueButton').click(function() {
+                $('.pracaRow[data-taken="false"]').hide();
+                $('.pracaRow[data-taken="true"]').show();
+                $(this).prop('disabled', true);
+                $('#allButton').prop('disabled', false);
+                $('#takenFalseButton').prop('disabled', false);
+            });
+
+            $('#takenFalseButton').click(function() {
+                $('.pracaRow[data-taken="true"]').hide();
+                $('.pracaRow[data-taken="false"]').show();
+                $(this).prop('disabled', true);
+                $('#allButton').prop('disabled', false);
+                $('#takenTrueButton').prop('disabled', false);
+            });
+        });
+    </script>
+</head>
+<body>
+    <h1>Lista prac</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Nazwa</th>
+                <th>Opis</th>
+                <th>Deadline</th>
+                <th>Dodano</th>
+                <th>Zajęte</th>
+                <th colspan="2">Akcje</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for praca in prace %}
+            <tr class="pracaRow" data-taken="{{ 'true' if praca.taken else 'false' }}">
+                <td>{{ praca.nazwa }}</td>
+                <td>{{ praca.opis }}</td>
+                <td>{{ praca.deadline }}</td>
+                <td>{{ praca.created_at }}</td>
+                <td>
+                    <input type="checkbox" disabled {% if praca.taken %}checked{% endif %}>
+                </td>
+                {% if not praca.taken %}
+                    <td><button class="deleteButton" data-id="{{ praca.id }}">Usuń</button></td>
+                {% else %}
+                    <td><button class="deleteButton" data-id="{{ praca.id }}" disabled>Usuń</button></td>
+                {% endif %}
+                <td><button class="editButton" data-id="{{ praca.id }}">Edytuj</button></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <button id="allButton" disabled>Wszystkie</button>
+    <button id="takenTrueButton">Zajęte</button>
+    <button id="takenFalseButton">Dostępne</button>
+    <br>
+    <br>
+    <button class="addButton">Dodaj Pracę</button>
+    <br>
+    <br>
+    <a href="/">Powrót</a>
+</body>
+</html>
