@@ -3,7 +3,7 @@ from flask_restful import Resource
 
 from models import Praca, Zgloszenie
 
-
+#api
 class Index(Resource):
     def get(self):
         zgloszenia = Zgloszenie.select()
