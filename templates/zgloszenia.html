@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lista prac</title>
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/style_zgloszenia.css') }}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.deleteButton').click(function() {
+                var id = $(this).data('id');
+
+                $.ajax({
+                    url: '/zgloszenia/' + id,
+                    type: 'DELETE',
+                    success: function(response) {
+                    location.reload(); // Przeładowanie strony
+                },
+                });
+            });
+        });
+
+        $(document).ready(function() {
+            $('.editButton').click(function() {
+                var id = $(this).data('id');
+                $.ajax({
+                    url: '/zgloszenia/' + id + '/edit',
+                    type: 'GET',
+                    success: function(response) {
+                        location.href = '/zgloszenia/' + id + '/edit';
+                },
+                });
+                
+            });
+        });
+
+        $(document).ready(function() {
+            $('.addButton').click(function() {
+                $.ajax({
+                    url: '/zgloszenia/new-zgloszenie',
+                    type: 'GET',
+                    success: function(response) {
+                    location.href= "/zgloszenia/new-zgloszenie";
+                },
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <h1>Lista prac</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Email</th>
+                <th>Wiadomość</th>
+                <th>Numer telefonu</th>
+                <th>Dodano</th>
+                <th>Praca</th>
+                <th colspan="2">Akcje</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for zgloszenie in zgloszenia %}
+            <tr>
+                <td>{{ zgloszenie.email }}</td>
+                <td>{{ zgloszenie.wiadomosc }}</td>
+                <td>{{ zgloszenie.nr_telefonu }}</td>
+                <td>{{ zgloszenie.created_at }}</td>
+                <td>{{ zgloszenie.praca.nazwa }}</td>
+                <td><button class="deleteButton" data-id="{{ zgloszenie.id }}">Usuń</button></td>
+                <td><button class="editButton" data-id="{{ zgloszenie.id }}">Edytuj</button></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <td><button class="addButton">Dodaj Zgłoszenie</button></td>
+    <br>
+    <br>
+    <a href="/">Powrót</a>
+</body>
+</html>

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Zgloszenie</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/style_zgloszenie_form.css') }}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#submitButton').click(function () {
+                var email = $('#email').val();
+                var wiadomosc = $('#wiadomosc').val();
+                var nr_telefonu = $('#nr_telefonu').val();
+                var praca = $('#praca').val();
+
+                if (!validateEmail(email)) {
+                    alert("Proszę wprowadzić poprawny adres e-mail.");
+                    return;
+                }
+
+                if (!validatePhoneNumber(nr_telefonu)) {
+                    alert("Proszę wprowadzić poprawny numer telefonu w formacie XXX-XXX-XXX.");
+                    return;
+                }
+
+                var data = {
+                    email: email,
+                    wiadomosc: wiadomosc,
+                    nr_telefonu: nr_telefonu,
+                    praca: praca
+                };
+
+                $.ajax({
+                    url: '/zgloszenia',
+                    type: 'POST',
+                    data: data,
+                    success: function (response) {
+                        location.href = "/zgloszenia"; // Przekierowanie na stronę główną po dodaniu pracy
+                    }
+                });
+            });
+
+            // Funkcja walidująca adres e-mail
+            function validateEmail(email) {
+                var re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return re.test(email);
+            }
+
+            // Funkcja walidująca numer telefonu w formacie XXX-XXX-XXX
+            function validatePhoneNumber(phoneNumber) {
+                var re = /^\d{3}-\d{3}-\d{3}$/;
+                return re.test(phoneNumber);
+            }
+        });
+
+        $(document).ready(function () {
+            $('#editButton').click(function () {
+                var id = $('#id').val();
+                var email = $('#email').val();
+                var wiadomosc = $('#wiadomosc').val();
+                var nr_telefonu = $('#nr_telefonu').val();
+                var praca = $('#praca').val();
+
+                if (!validateEmail(email)) {
+                    alert("Proszę wprowadzić poprawny adres e-mail.");
+                    return;
+                }
+
+                if (!validatePhoneNumber(nr_telefonu)) {
+                    alert("Proszę wprowadzić poprawny numer telefonu w formacie XXX-XXX-XXX.");
+                    return;
+                }
+
+                var data = {
+                    email: email,
+                    wiadomosc: wiadomosc,
+                    nr_telefonu: nr_telefonu,
+                    praca: praca
+                };
+
+                $.ajax({
+                    url: '/zgloszenia/' + id,
+                    type: 'PUT',
+                    data: data,
+                    success: function (response) {
+                        location.href = "/zgloszenia"; // Przekierowanie na stronę główną po dodaniu pracy
+                    }
+                });
+            });
+
+            // Funkcja walidująca adres e-mail
+            function validateEmail(email) {
+                var re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return re.test(email);
+            }
+
+            // Funkcja walidująca numer telefonu w formacie XXX-XXX-XXX
+            function validatePhoneNumber(phoneNumber) {
+                var re = /^\d{3}-\d{3}-\d{3}$/;
+                return re.test(phoneNumber);
+            }
+        });
+    </script>
+</head>
+<body>
+    {% if zgloszenie %}
+        <h1>Edytuj zgłoszenie</h1>
+    {% else %}
+        <h1>Dodaj zgłoszenie</h1>
+    {% endif %}
+    <form>
+        {% if zgloszenie %}
+            <input type="hidden" id="id" name="id" value="{{ zgloszenie.id }}">
+
+            <label for="praca">Praca:</label>
+            <select id="praca" name="praca" required>
+                {% for praca in prace %}
+                    {% if not praca.taken %}
+                        <option value="{{ praca.id }}" {% if zgloszenie.praca.id == praca.id %}selected{% endif %}>{{ praca.nazwa }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select><br><br>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" value="{{ zgloszenie.email }}" required><br><br>
+
+            <label for="wiadomosc">Wiadomość:</label>
+            <textarea id="wiadomosc" name="wiadomosc" required>{{ zgloszenie.wiadomosc }}</textarea><br><br>
+
+            <label for="nr_telefonu">Numer Telefonu:</label>
+            <input type="tel" id="nr_telefonu" name="nr_telefonu" value="{{ zgloszenie.nr_telefonu }}" required><br><br>
+
+        {% else %}
+
+            <label for="praca">Praca:</label>
+            <select id="praca" name="praca" required>
+                {% for praca in prace %}
+                    {% if not praca.taken %}
+                        <option value="{{ praca.id }}">{{ praca.nazwa }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select><br><br>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required><br><br>
+
+            <label for="wiadomosc">Wiadomość:</label>
+            <textarea id="wiadomosc" name="wiadomosc" required></textarea><br><br>
+
+            <label for="nr_telefonu">Numer Telefonu:</label>
+            <input type="tel" id="nr_telefonu" name="nr_telefonu" required><br><br>
+            <small>Format: XXX-XXX-XXX</small><br><br>
+
+        {% endif %}
+
+        {% if zgloszenie %}
+            <button type="button" id="editButton">Edytuj</button>
+        {% else %}
+            <button type="button" id="submitButton">Dodaj</button>
+        {% endif %}
+
+    </form>
+    <br>
+    <a href="/">Powrót</a>
+</body>
+</html>
