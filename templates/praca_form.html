@@ -5,6 +5,13 @@
     <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/style_prace_form.css') }}">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
+
+    document.addEventListener('DOMContentLoaded', function() {
+        var deadlineInput = document.getElementById('deadline');
+        var today = new Date().toISOString().split('T')[0];
+        deadlineInput.setAttribute('min', today);
+    });
+
         $(document).ready(function() {
             $('#submitButton').click(function() {
                 var nazwa = $('#nazwa').val();
@@ -73,7 +80,7 @@
             </textarea><br><br>
 
             <label for="deadline">Deadline:</label>
-            <input type="date" id="deadline" name="deadline" required><br><br>
+            <input type="date" id="deadline" name="deadline" {% if praca.deadline %}value="{{ praca.deadline }}"{% endif %} required><br><br>
 
         {% else %}
 

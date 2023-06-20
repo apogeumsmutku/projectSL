@@ -89,10 +89,11 @@
                 </td>
                 {% if not praca.taken %}
                     <td><button class="deleteButton" data-id="{{ praca.id }}">Usuń</button></td>
+                    <td><button class="editButton" data-id="{{ praca.id }}">Edytuj</button></td>
                 {% else %}
                     <td><button class="deleteButton" data-id="{{ praca.id }}" disabled>Usuń</button></td>
+                    <td><button class="editButton" data-id="{{ praca.id }}" disabled>Edytuj</button></td>
                 {% endif %}
-                <td><button class="editButton" data-id="{{ praca.id }}">Edytuj</button></td>
             </tr>
             {% endfor %}
         </tbody>
