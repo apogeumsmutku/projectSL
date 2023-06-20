@@ -1,3 +1,4 @@
+from datetime import datetime
 from flask import make_response, render_template, request
 from flask_restful import Resource
 
@@ -31,8 +32,9 @@ class PracaAdd(Resource):
     
 class PracaEdit(Resource):
     def get(self, praca_id):
+        current_date = datetime.now().strftime('%Y-%m-%d')
         praca = Praca.get(id=praca_id)
-        return make_response(render_template('praca_form.html', praca=praca))
+        return make_response(render_template('praca_form.html', praca=praca, current_date=current_date))
 
         
 class PraceDetail(Resource):
