@@ -73,7 +73,7 @@
             </textarea><br><br>
 
             <label for="deadline">Deadline:</label>
-            <input type="date" id="deadline" name="deadline" value="{{ praca.deadline }}" min="{{ 'now' | date('Y-m-d') }}" required><br><br>
+            <input type="date" id="deadline" name="deadline" required><br><br>
 
         {% else %}
 
@@ -85,7 +85,7 @@
             <textarea id="opis" name="opis" required></textarea><br><br>
 
             <label for="deadline">Deadline:</label>
-            <input type="date" id="deadline" name="deadline" min="{{ 'now' | date('Y-m-d') }}" required><br><br>
+            <input type="date" id="deadline" name="deadline" required><br><br>
 
         {% endif %}
 
