@@ -3,6 +3,9 @@ from peewee import *
 import datetime
 
 from config import Config
+
+#models
+
 class BaseModel(Model):
     id = UUIDField(primary_key=True, default=uuid.uuid4)
     created_at = DateField(default=datetime.datetime.now)

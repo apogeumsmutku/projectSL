@@ -68,7 +68,7 @@ class ZgloszeniaList(Resource):
             nr_telefonu=request.form.get('nr_telefonu')
         )
         
-        praca = Praca.get(id = request.form.get('praca'))
+        praca = Praca.get(id=request.form.get('praca'))
         praca.taken = True
         praca.save()
         
