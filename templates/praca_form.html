@@ -14,13 +14,13 @@
 
         $(document).ready(function() {
             $('#submitButton').click(function() {
-                var nazwa = $('#nazwa').val();
-                var opis = $('#opis').val();
+                var name = $('#name').val();
+                var desc = $('#desc').val();
                 var deadline = $('#deadline').val();
 
                 var data = {
-                    nazwa: nazwa,
-                    opis: opis,
+                    name: name,
+                    desc: desc,
                     deadline: deadline
                 };
 
@@ -29,7 +29,7 @@
                     type: 'POST',
                     data: data,
                     success: function(response) {
-                        location.href = "/prace"; // Przekierowanie na stronę główną po dodaniu pracy
+                        location.href = "/prace"; // redirect to main page after adding
                     }
                 });
             });
@@ -38,13 +38,13 @@
         $(document).ready(function() {
             $('#editButton').click(function() {
                 var id = $('#id').val();
-                var nazwa = $('#nazwa').val();
-                var opis = $('#opis').val();
+                var name = $('#name').val();
+                var desc = $('#desc').val();
                 var deadline = $('#deadline').val();
 
                 var data = {
-                    nazwa: nazwa,
-                    opis: opis,
+                    name: name,
+                    desc: desc,
                     deadline: deadline
                 };
 
@@ -53,7 +53,7 @@
                     type: 'PUT',
                     data: data,
                     success: function(response) {
-                        location.href = "/prace"; // Przekierowanie na stronę główną po dodaniu pracy
+                        location.href = "/prace"; // redirect to main page after adding
                     }
                 });
             });
@@ -71,11 +71,11 @@
         {% if praca %}
             <input type="hidden" id="id" name="id" value="{{ praca.id }}">
 
-            <label for="nazwa">Nazwa:</label>
-            <input type="text" id="nazwa" name="nazwa" value="{{ praca.nazwa }}" required><br><br>
+            <label for="name">Nazwa:</label>
+            <input type="text" id="name" name="name" value="{{ praca.nazwa }}" required><br><br>
 
-            <label for="opis">Opis:</label>
-            <textarea id="opis" name="opis" required>
+            <label for="desc">Opis:</label>
+            <textarea id="desc" name="desc" required>
 {{ praca.opis }}
             </textarea><br><br>
 
@@ -84,12 +84,12 @@
 
         {% else %}
 
-            <label for="nazwa">Nazwa:</label>
-            <input type="text" id="nazwa" name="nazwa" required><br><br>
+            <label for="name">Nazwa:</label>
+            <input type="text" id="name" name="name" required><br><br>
 
 
-            <label for="opis">Opis:</label>
-            <textarea id="opis" name="opis" required></textarea><br><br>
+            <label for="desc">Opis:</label>
+            <textarea id="desc" name="desc" required></textarea><br><br>
 
             <label for="deadline">Deadline:</label>
             <input type="date" id="deadline" name="deadline" required><br><br>

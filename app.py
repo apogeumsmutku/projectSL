@@ -1,6 +1,6 @@
 from flask import Flask
 from flask_restful import Api
-from resources import  Index, PracaAdd, PracaEdit, PraceDetail, PraceList, ZgloszeniaAdd, ZgloszeniaDetail, ZgloszeniaEdit, ZgloszeniaList
+from resources import Index, PracaAdd, PracaEdit, PraceDetail, PraceList, ZgloszeniaAdd, ZgloszeniaDetail, ZgloszeniaEdit, ZgloszeniaList
 
 app = Flask(__name__)
 app.config.from_object('config.Config')

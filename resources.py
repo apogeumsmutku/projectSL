@@ -20,8 +20,8 @@ class PraceList(Resource):
     
     def post(self):
         Praca.create(
-            nazwa=request.form.get('nazwa'),
-            opis=request.form.get('opis'),
+            name=request.form.get('name'),
+            desc=request.form.get('desc'),
             deadline=request.form.get('deadline')
         )
         
@@ -50,8 +50,8 @@ class PraceDetail(Resource):
         
     def put(self, praca_id):
         praca = Praca.get(id=praca_id)
-        praca.nazwa = request.form.get('nazwa')
-        praca.opis = request.form.get('opis')
+        praca.name = request.form.get('name')
+        praca.desc = request.form.get('desc')
         praca.deadline = request.form.get('deadline')
         praca.save()
         return make_response(render_template('praca_form.html'))
@@ -66,8 +66,8 @@ class ZgloszeniaList(Resource):
         Zgloszenie.create(
             praca=request.form.get('praca'),
             email=request.form.get('email'),
-            wiadomosc=request.form.get('wiadomosc'),
-            nr_telefonu=request.form.get('nr_telefonu')
+            message=request.form.get('message'),
+            phone_num=request.form.get('phone_num')
         )
         
         praca = Praca.get(id=request.form.get('praca'))
@@ -110,8 +110,8 @@ class ZgloszeniaDetail(Resource):
         
         zgloszenie.praca = request.form.get('praca')
         zgloszenie.email = request.form.get('email')
-        zgloszenie.wiadomosc = request.form.get('wiadomosc')
-        zgloszenie.nr_telefonu = request.form.get('nr_telefonu')
+        zgloszenie.message = request.form.get('message')
+        zgloszenie.phone_num = request.form.get('phone_num')
         zgloszenie.save()
         
         praca = Praca.get(id = request.form.get('praca'))

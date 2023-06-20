@@ -80,8 +80,8 @@
         <tbody>
             {% for praca in prace %}
             <tr class="pracaRow" data-taken="{{ 'true' if praca.taken else 'false' }}">
-                <td>{{ praca.nazwa }}</td>
-                <td>{{ praca.opis }}</td>
+                <td>{{ praca.name }}</td>
+                <td>{{ praca.desc }}</td>
                 <td>{{ praca.deadline }}</td>
                 <td>{{ praca.created_at }}</td>
                 <td>

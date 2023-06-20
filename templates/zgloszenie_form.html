@@ -8,8 +8,8 @@
         $(document).ready(function () {
             $('#submitButton').click(function () {
                 var email = $('#email').val();
-                var wiadomosc = $('#wiadomosc').val();
-                var nr_telefonu = $('#nr_telefonu').val();
+                var message = $('#message').val();
+                var phone_num = $('#phone_num').val();
                 var praca = $('#praca').val();
 
                 if (!validateEmail(email)) {
@@ -17,15 +17,15 @@
                     return;
                 }
 
-                if (!validatePhoneNumber(nr_telefonu)) {
+                if (!validatePhoneNumber(phone_num)) {
                     alert("Proszę wprowadzić poprawny numer telefonu w formacie XXX-XXX-XXX.");
                     return;
                 }
 
                 var data = {
                     email: email,
-                    wiadomosc: wiadomosc,
-                    nr_telefonu: nr_telefonu,
+                    message: message,
+                    phone_num: phone_num,
                     praca: praca
                 };
 
@@ -34,21 +34,21 @@
                     type: 'POST',
                     data: data,
                     success: function (response) {
-                        location.href = "/zgloszenia"; // Przekierowanie na stronę główną po dodaniu pracy
+                        location.href = "/zgloszenia"; // redirect to main page after adding
                     }
                 });
             });
 
-            // Funkcja walidująca adres e-mail
+            // email validation
             function validateEmail(email) {
                 var re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
                 return re.test(email);
             }
 
-            // Funkcja walidująca numer telefonu w formacie XXX-XXX-XXX
-            function validatePhoneNumber(phoneNumber) {
+            // phone validation (pattern is XXX-XXX-XXX)
+            function validatePhoneNumber(phone_num) {
                 var re = /^\d{3}-\d{3}-\d{3}$/;
-                return re.test(phoneNumber);
+                return re.test(phone_num);
             }
         });
 
@@ -56,8 +56,8 @@
             $('#editButton').click(function () {
                 var id = $('#id').val();
                 var email = $('#email').val();
-                var wiadomosc = $('#wiadomosc').val();
-                var nr_telefonu = $('#nr_telefonu').val();
+                var message = $('#message').val();
+                var phone_num = $('#phone_num').val();
                 var praca = $('#praca').val();
 
                 if (!validateEmail(email)) {
@@ -65,15 +65,15 @@
                     return;
                 }
 
-                if (!validatePhoneNumber(nr_telefonu)) {
+                if (!validatePhoneNumber(phone_num)) {
                     alert("Proszę wprowadzić poprawny numer telefonu w formacie XXX-XXX-XXX.");
                     return;
                 }
 
                 var data = {
                     email: email,
-                    wiadomosc: wiadomosc,
-                    nr_telefonu: nr_telefonu,
+                    message: message,
+                    phone_num: phone_num,
                     praca: praca
                 };
 
@@ -82,18 +82,18 @@
                     type: 'PUT',
                     data: data,
                     success: function (response) {
-                        location.href = "/zgloszenia"; // Przekierowanie na stronę główną po dodaniu pracy
+                        location.href = "/zgloszenia"; // redirect to main page after adding
                     }
                 });
             });
 
-            // Funkcja walidująca adres e-mail
+            // email validation
             function validateEmail(email) {
                 var re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
                 return re.test(email);
             }
 
-            // Funkcja walidująca numer telefonu w formacie XXX-XXX-XXX
+            // phone number validation (pattern is XXX-XXX-XXX)
             function validatePhoneNumber(phoneNumber) {
                 var re = /^\d{3}-\d{3}-\d{3}$/;
                 return re.test(phoneNumber);
@@ -115,7 +115,7 @@
             <select id="praca" name="praca" required>
                 {% for praca in prace %}
                     {% if not praca.taken %}
-                        <option value="{{ praca.id }}" {% if zgloszenie.praca.id == praca.id %}selected{% endif %}>{{ praca.nazwa }}</option>
+                        <option value="{{ praca.id }}" {% if zgloszenie.praca.id == praca.id %}selected{% endif %}>{{ praca.name }}</option>
                     {% endif %}
                 {% endfor %}
             </select><br><br>
@@ -123,11 +123,11 @@
             <label for="email">Email:</label>
             <input type="email" id="email" name="email" value="{{ zgloszenie.email }}" required><br><br>
 
-            <label for="wiadomosc">Wiadomość:</label>
-            <textarea id="wiadomosc" name="wiadomosc" required>{{ zgloszenie.wiadomosc }}</textarea><br><br>
+            <label for="message">Wiadomość:</label>
+            <textarea id="message" name="message" required>{{ zgloszenie.message }}</textarea><br><br>
 
-            <label for="nr_telefonu">Numer Telefonu:</label>
-            <input type="tel" id="nr_telefonu" name="nr_telefonu" value="{{ zgloszenie.nr_telefonu }}" required><br><br>
+            <label for="phone_num">Numer Telefonu:</label>
+            <input type="tel" id="phone_num" name="phone_num" value="{{ zgloszenie.phone_num }}" required><br><br>
 
         {% else %}
 
@@ -135,7 +135,7 @@
             <select id="praca" name="praca" required>
                 {% for praca in prace %}
                     {% if not praca.taken %}
-                        <option value="{{ praca.id }}">{{ praca.nazwa }}</option>
+                        <option value="{{ praca.id }}">{{ praca.name }}</option>
                     {% endif %}
                 {% endfor %}
             </select><br><br>
@@ -143,11 +143,11 @@
             <label for="email">Email:</label>
             <input type="email" id="email" name="email" required><br><br>
 
-            <label for="wiadomosc">Wiadomość:</label>
-            <textarea id="wiadomosc" name="wiadomosc" required></textarea><br><br>
+            <label for="message">Wiadomość:</label>
+            <textarea id="message" name="message" required></textarea><br><br>
 
-            <label for="nr_telefonu">Numer Telefonu:</label>
-            <input type="tel" id="nr_telefonu" name="nr_telefonu" required><br><br>
+            <label for="phone_num">Numer Telefonu:</label>
+            <input type="tel" id="phone_num" name="phone_num" required><br><br>
             <small>Format: XXX-XXX-XXX</small><br><br>
 
         {% endif %}

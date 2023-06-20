@@ -63,10 +63,10 @@
             {% for zgloszenie in zgloszenia %}
             <tr>
                 <td>{{ zgloszenie.email }}</td>
-                <td>{{ zgloszenie.wiadomosc }}</td>
-                <td>{{ zgloszenie.nr_telefonu }}</td>
+                <td>{{ zgloszenie.message }}</td>
+                <td>{{ zgloszenie.phone_num }}</td>
                 <td>{{ zgloszenie.created_at }}</td>
-                <td>{{ zgloszenie.praca.nazwa }}</td>
+                <td>{{ zgloszenie.praca.name }}</td>
                 <td><button class="deleteButton" data-id="{{ zgloszenie.id }}">Usuń</button></td>
                 <td><button class="editButton" data-id="{{ zgloszenie.id }}">Edytuj</button></td>
             </tr>

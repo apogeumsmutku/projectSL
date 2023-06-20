@@ -15,15 +15,15 @@ class BaseModel(Model):
         abstract = True
 
 class Praca(BaseModel):
-    nazwa = CharField()
-    opis = CharField()
+    name = CharField()
+    desc = CharField()
     deadline = DateField()
     taken = BooleanField(default=False)
 
 class Zgloszenie(BaseModel):
     email = CharField()
-    wiadomosc = CharField()
-    nr_telefonu = CharField(null=True)
+    message = CharField()
+    phone_num = CharField(null=True)
     praca = ForeignKeyField(Praca, backref='zgloszenia')
 
 Config.DATABASE.create_tables([Praca, Zgloszenie])
